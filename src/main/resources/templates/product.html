@@ -1,0 +1,57 @@
+<th:block xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+            <h3 class="jumbotron-heading">All products</h3>
+        </div>
+    </section>
+    <div class="row">
+      <div class="col-12" th:if="${listaProdukti.size()>0}">
+          <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                      <th scope="col">Product name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Manufacturer</th>
+                      <th scope="col">Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${listaProdukti}" class="product">
+                      <td th:text="${product.getName()}"></td>
+                        <td th:text="${product.getPrice()}"></td>
+                        <td th:text="${product.getManufacturer() != null} ? ${product.getManufacturer().getName()} : 'Not found'"></td>
+                        <td th:text="${product.getCategory() != null} ? ${product.getCategory().getName()} : 'Not found'"></td>
+                        <td class="text-right">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:method="delete" th:action="@{'/product/delete/{id}' (id=${product.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-danger delete-product">
+                                    <i class="fa fa-trash"> Delete</i>
+                                </button>
+                            </form>
+                            </th:block>
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="btn btn-sm btn-info edit-product" th:href="@{'product/edit-form/{id}' (id=${product.getId()})}"><i class="fa fa-trash">Edit</i></a>
+                            </th:block>
+                            <form th:method="POST" th:action="@{'/shop-cart/add-product/{id}' (id=${product.getId()})}"
+                                  sec:authorize="isAuthenticated()">
+                                <button type="submit" class="btn btn-sm btn-danger cart-product">
+                                    <i class="fa fa-trash"> Add product to Cart</i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+      </div>
+  </div>
+    <div class="col mb-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/product/add-form" class="btn btn-block btn-dark add-product-btn">Add new product</a>
+            </div>
+        </div>
+    </div>
+</th:block>

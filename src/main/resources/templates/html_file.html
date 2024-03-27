@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<h3>Info about request</h3>
+<div>IP Address:<th:block th:text="${ipAddress}"></th:block></div>
+<div>Client Agent:<th:block th:text="${clientAgent}"></th:block></div>
+
+<th:block th:if="${session.user!=null}">
+<h3>Info about user</h3>
+<div>Username:<th:block th:text="${session.user.username}"></th:block></div>
+<div>Name:<th:block th:text="${session.user.name}"></th:block></div>
+<div>Surname:<th:block th:text="${session.user.surname}"></th:block></div>
+    <div>
+        <a href="/logout">Logout </a>
+    </div>
+
+</th:block>
+
+<h3>Categories</h3>
+<ul>
+    <li th:each="category : ${categories}"><th:block th:text="${category.getName()}"></th:block></li>
+</ul>
+
+<h3>Add new category</h3>
+<form th:action="@{/servlet/thymeleaf/category}" th:method="POST">
+    <label for='name'>Name:</label>
+    <input id="name" type="text" name="name"/>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description"/>
+
+    <input type="submit" value="Submit"/>
+</form>
+</body>
+</html>

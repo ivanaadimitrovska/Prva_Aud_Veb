@@ -1,0 +1,58 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+    </div>
+  </section>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <form action="/product/add" method="POST">
+          <input id="id" type="hidden" name="id" th:value="(${produkt} != null ? ${produkt.getId()} : '')">
+<!--        <a class="btn btn-primary btn-sm ml-3" href="/shop-cart">-->
+<!--            <i class="fa fa-shopping-cart"></i>Cart-->
+<!--        </a>-->
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" placeholder="Enter product name" id="name" name="name"
+          class="form-control" th:value="(${produkt} != null ? ${produkt.getName()} : '')"/>
+          <label for="price">Price</label>
+          <input type="text" placeholder="Enter product price" id="price" name="price"
+                 class="form-control" th:value="(${produkt} != null ? ${produkt.getPrice()} : '')"/>
+          <label for="quantity">Quantity</label>
+          <input type="text" placeholder="Enter product quantity" id="quantity" name="quantity"
+                 class="form-control" th:value="(${produkt} != null ? ${produkt.getQuantity()} : '')"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category" class="form-group">
+              <option th:if="${produkt} != null"
+                      th:selected="${produkt.getCategory()!=null && produkt.getCategory().getId() == kategorija.getId()}"
+                      th:each="kategorija : ${kategorii}" th:text="${kategorija.getName()}"
+                  th:value="${kategorija.getId()}"></option>
+            <option th:if="${produkt} == null"
+                    th:each="kategorija : ${kategorii}" th:text="${kategorija.getName()}"
+                    th:value="${kategorija.getId()}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Manufacturer</label>
+          <select name="manufacturer" class="form-group">
+            <option th:if="${produkt} != null"
+                    th:selected="${produkt.getManufacturer()!=null && produkt.getManufacturer().getId() == manufacturer.getId()}"
+                    th:each="manufacturer : ${proizvoditeli}" th:text="${manufacturer.getName()}"
+                    th:value="${manufacturer.getId()}"></option>
+            <option th:if="${produkt} == null"
+                    th:each="manufacturer : ${proizvoditeli}" th:text="${manufacturer.getName()}"
+                    th:value="${manufacturer.getId()}"></option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        <a type="button" class="btn btn-primary" href="/product">Back</a>
+      </form>
+    </div>
+  </div>
+</div>
+</th:block>
+
